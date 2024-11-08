@@ -8,18 +8,17 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-# Build the application using Maven
-#RUN mvn clean install
+# Build the application using Maven (skipping tests for now)
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create the final image to run the application
-#FROM openjdk:11-jre-slim
+FROM openjdk:11-jre-slim
 
 # Set the working directory for the final image
 WORKDIR /app
 
 # Copy the built .jar file from the build image to the final image
-COPY --from=build /app/target/MyJavaApp 1.0-SNAPSHOT /app/my-app.jar
+COPY --from=build /app/target/MyJavaApp-1.0-SNAPSHOT.jar /app/my-app.jar
 
 # Expose the port that the application will run on
 EXPOSE 8080
